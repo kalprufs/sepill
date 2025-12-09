@@ -1,12 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sepill - Smart Medication Tracker</title>
+    <link rel="icon" href="https://img.icons8.com/color/48/000000/medicine.png" type="image/x-icon">
+    <link rel="apple-touch-icon" href="https://img.icons8.com/color/48/000000/medicine.png">
+    <meta name="apple-mobile-web-app-title" content="Sepill">
+    <meta name="application-name" content="Sepill">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
+        /* تعریف فونت‌های فارسی */
+        @font-face {
+            font-family: 'AbarBold';
+            src: url('fonts/AbarLowFaNum-Bold.otf') format('opentype');
+            font-weight: bold;
+            font-style: normal;
+        }
+        
+        @font-face {
+            font-family: 'AbarRegular';
+            src: url('fonts/AbarLowFaNum-Regular.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+        }
+        
         * {
             margin: 0;
             padding: 0;
@@ -34,13 +52,14 @@
         }
         
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'AbarRegular', 'Poppins', sans-serif;
             background: linear-gradient(135deg, #E9E4FF 0%, #D5CDFF 50%, #C5B9FF 100%);
             color: var(--dark-color);
-            line-height: 1.6;
+            line-height: 1.8;
             position: relative;
             overflow-x: hidden;
             min-height: 100vh;
+            text-align: right;
         }
         
         body::before {
@@ -152,8 +171,10 @@
         }
         
         .user-profile h4 {
-            font-weight: 600;
+            font-family: 'AbarBold', sans-serif;
+            font-weight: 700;
             color: var(--dark-color);
+            font-size: 16px;
         }
         
         .user-profile p {
@@ -171,6 +192,7 @@
             margin-bottom: 40px;
             box-shadow: 0 15px 50px rgba(139, 127, 255, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.5);
+            flex-wrap: wrap;
         }
         
         .nav-item {
@@ -188,6 +210,7 @@
             color: var(--gray-color);
             position: relative;
             overflow: hidden;
+            min-width: 140px;
         }
         
         .nav-item::before {
@@ -241,6 +264,7 @@
         }
         
         .page-title {
+            font-family: 'AbarBold', sans-serif;
             font-size: 28px;
             font-weight: 700;
             margin-bottom: 30px;
@@ -289,6 +313,7 @@
         }
         
         .stat-card h3 {
+            font-family: 'AbarBold', sans-serif;
             font-size: 13px;
             color: var(--gray-color);
             margin-bottom: 12px;
@@ -298,6 +323,7 @@
         }
         
         .stat-value {
+            font-family: 'AbarBold', sans-serif;
             font-size: 40px;
             font-weight: 800;
             background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
@@ -324,6 +350,7 @@
         }
         
         .today-pills h2 {
+            font-family: 'AbarBold', sans-serif;
             font-size: 22px;
             margin-bottom: 30px;
             display: flex;
@@ -347,7 +374,7 @@
             border-radius: 20px;
             padding: 25px;
             transition: var(--transition);
-            border-left: 5px solid;
+            border-right: 5px solid;
             border-image: linear-gradient(135deg, var(--gradient-start), var(--gradient-end)) 1;
             backdrop-filter: blur(10px);
             position: relative;
@@ -367,7 +394,7 @@
         }
         
         .pill-item:hover {
-            transform: translateX(10px) scale(1.02);
+            transform: translateX(-10px) scale(1.02);
             box-shadow: 0 15px 40px rgba(139, 127, 255, 0.2);
         }
         
@@ -386,7 +413,7 @@
         }
         
         .pill-checkbox-container {
-            margin-right: 20px;
+            margin-left: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -394,7 +421,7 @@
         }
         
         .pill-checkbox-real {
-            display: none; /* Hide the real checkbox */
+            display: none;
         }
         
         .pill-checkbox-custom {
@@ -433,6 +460,7 @@
         }
         
         .pill-info h3 {
+            font-family: 'AbarBold', sans-serif;
             font-size: 19px;
             font-weight: 700;
             margin-bottom: 6px;
@@ -471,16 +499,18 @@
         }
         
         .pill-time {
+            font-family: 'AbarBold', sans-serif;
             font-weight: 700;
             color: var(--primary-color);
             font-size: 20px;
-            margin-right: 20px;
+            margin-left: 20px;
             flex-shrink: 0;
         }
         
         .pill-amount {
             background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
             color: white;
+            font-family: 'AbarBold', sans-serif;
             font-weight: 700;
             padding: 10px 20px;
             border-radius: 50px;
@@ -514,7 +544,8 @@
         }
         
         .form-group label {
-            font-weight: 600;
+            font-family: 'AbarBold', sans-serif;
+            font-weight: 700;
             margin-bottom: 18px;
             display: flex;
             align-items: center;
@@ -527,11 +558,12 @@
             padding: 16px 20px;
             border: 2px solid rgba(139, 127, 255, 0.2);
             border-radius: 16px;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'AbarRegular', sans-serif;
             font-size: 16px;
             transition: var(--transition);
             background: white;
             font-weight: 500;
+            text-align: right;
         }
         
         .form-control:focus {
@@ -546,6 +578,7 @@
             flex-wrap: wrap;
             gap: 18px;
             margin-top: 15px;
+            justify-content: center;
         }
         
         .icon-option {
@@ -582,6 +615,7 @@
             display: flex;
             gap: 25px;
             margin-top: 15px;
+            flex-wrap: wrap;
         }
         
         .food-option {
@@ -627,7 +661,7 @@
             padding: 18px 36px;
             border-radius: 16px;
             border: none;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'AbarBold', sans-serif;
             font-weight: 700;
             font-size: 16px;
             cursor: pointer;
@@ -734,6 +768,7 @@
         }
         
         .pill-name {
+            font-family: 'AbarBold', sans-serif;
             font-size: 22px;
             font-weight: 700;
             color: var(--dark-color);
@@ -751,6 +786,7 @@
             flex-wrap: wrap;
             gap: 12px;
             margin-bottom: 20px;
+            justify-content: flex-start;
         }
         
         .schedule-item {
@@ -772,6 +808,7 @@
         }
         
         .pill-count {
+            font-family: 'AbarBold', sans-serif;
             font-size: 32px;
             font-weight: 800;
             background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
@@ -798,6 +835,7 @@
         }
         
         .settings-section h3 {
+            font-family: 'AbarBold', sans-serif;
             font-size: 22px;
             margin-bottom: 25px;
             display: flex;
@@ -867,6 +905,7 @@
         }
         
         .setting-info h4 {
+            font-family: 'AbarBold', sans-serif;
             font-weight: 700;
             margin-bottom: 6px;
             color: var(--dark-color);
@@ -882,7 +921,7 @@
         .notification {
             position: fixed;
             top: 30px;
-            right: 30px;
+            left: 30px;
             background: var(--card-bg);
             backdrop-filter: blur(20px);
             border-radius: 20px;
@@ -893,7 +932,7 @@
             gap: 18px;
             z-index: 1000;
             max-width: 380px;
-            transform: translateX(450px);
+            transform: translateX(-450px);
             transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             border: 1px solid rgba(255, 255, 255, 0.5);
         }
@@ -916,6 +955,7 @@
         }
         
         .notification-info h4 {
+            font-family: 'AbarBold', sans-serif;
             font-weight: 700;
             margin-bottom: 6px;
             color: var(--dark-color);
@@ -964,6 +1004,7 @@
         }
         
         .empty-state h3 {
+            font-family: 'AbarBold', sans-serif;
             font-size: 24px;
             margin-bottom: 12px;
             color: var(--dark-color);
@@ -976,38 +1017,179 @@
             font-weight: 500;
         }
         
-        /* Responsive Design */
+        /* Responsive Design - بهبود موبایل فرندلی */
         @media (max-width: 768px) {
-            .app-nav {
+            .app-header {
                 flex-direction: column;
-                gap: 8px;
+                gap: 20px;
+                text-align: center;
+            }
+            
+            .logo {
+                justify-content: center;
+            }
+            
+            .user-profile {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .app-nav {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .nav-item {
+                min-width: calc(50% - 10px);
+                margin-bottom: 5px;
+                padding: 14px 10px;
+                font-size: 14px;
             }
             
             .dashboard-cards {
                 grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .stat-card {
+                padding: 20px;
+            }
+            
+            .stat-value {
+                font-size: 32px;
             }
             
             .pill-item {
                 flex-wrap: wrap;
+                padding: 20px;
+            }
+            
+            .pill-checkbox-container {
+                margin-left: 0;
+                margin-bottom: 15px;
             }
             
             .pill-time, .pill-amount {
+                margin-left: 0;
                 margin-top: 10px;
-                margin-right: 0;
                 width: 100%;
+                text-align: center;
+            }
+            
+            .pill-icons {
+                justify-content: center;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .form-control {
+                font-size: 16px;
+                padding: 14px 16px;
             }
             
             .food-options {
                 flex-direction: column;
             }
             
+            .food-option {
+                width: 100%;
+            }
+            
+            .icon-selection {
+                justify-content: center;
+            }
+            
+            .icon-option {
+                width: 60px;
+                height: 60px;
+                font-size: 24px;
+            }
+            
+            .inventory-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .settings-section {
+                padding: 25px;
+            }
+            
+            .setting-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .toggle-switch {
+                align-self: flex-start;
+            }
+            
             .notification {
                 max-width: calc(100% - 40px);
+                left: 20px;
                 right: 20px;
+                top: 20px;
             }
             
             .logo-text h1 {
-                font-size: 26px;
+                font-size: 28px;
+            }
+            
+            .page-title {
+                font-size: 24px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .app-container {
+                padding: 15px;
+            }
+            
+            .nav-item {
+                min-width: 100%;
+            }
+            
+            .today-pills, .add-pill-form, .settings-section {
+                padding: 25px 20px;
+            }
+            
+            .pill-info h3 {
+                font-size: 17px;
+            }
+            
+            .pill-time {
+                font-size: 18px;
+            }
+            
+            .btn {
+                padding: 16px 24px;
+                width: 100%;
+            }
+            
+            .stat-card h3 {
+                font-size: 12px;
+            }
+        }
+        
+        /* بهبود برای iOS و نمایش PWA */
+        @supports (-webkit-touch-callout: none) {
+            .app-container {
+                padding-bottom: env(safe-area-inset-bottom);
+                padding-top: env(safe-area-inset-top);
+            }
+        }
+        
+        /* مانع‌تر از PWA */
+        @media (display-mode: standalone) {
+            body {
+                padding-top: env(safe-area-inset-top);
+            }
+            
+            .app-header {
+                padding-top: 15px;
             }
         }
     </style>
@@ -1022,14 +1204,14 @@
                 </div>
                 <div class="logo-text">
                     <h1>Sepill</h1>
-                    <p>Smart Medication Tracker</p>
+                    <p>ردیاب هوشمند دارو</p>
                 </div>
             </div>
             <div class="user-profile">
-                <div class="user-avatar">S</div>
+                <div class="user-avatar">ا</div>
                 <div>
-                    <h4>Sarah's Tracker</h4>
-                    <p style="font-size: 12px; color: var(--gray-color);">Last sync: Today</p>
+                    <h4>ردیاب ارغوان</h4>
+                    <p style="font-size: 12px; color: var(--gray-color);">همگام‌سازی: امروز</p>
                 </div>
             </div>
         </header>
@@ -1038,59 +1220,59 @@
         <nav class="app-nav">
             <div class="nav-item active" data-page="dashboard">
                 <i class="fa-solid fa-home"></i>
-                <span>Dashboard</span>
+                <span>داشبورد</span>
             </div>
             <div class="nav-item" data-page="add-pill">
                 <i class="fa-solid fa-plus-circle"></i>
-                <span>Add Medication</span>
+                <span>افزودن دارو</span>
             </div>
             <div class="nav-item" data-page="inventory">
                 <i class="fa-solid fa-capsules"></i>
-                <span>Inventory</span>
+                <span>موجودی</span>
             </div>
             <div class="nav-item" data-page="settings">
                 <i class="fa-solid fa-cog"></i>
-                <span>Settings</span>
+                <span>تنظیمات</span>
             </div>
         </nav>
         
         <!-- Dashboard Page -->
         <section id="dashboard" class="content-area active">
-            <h2 class="page-title">Today's Medications</h2>
+            <h2 class="page-title">داروهای امروز</h2>
             
             <div class="dashboard-cards">
                 <div class="stat-card">
-                    <h3>To Take Today</h3>
-                    <div class="stat-value" id="today-count">0</div>
-                    <p class="stat-desc">Medications scheduled</p>
+                    <h3>برای امروز</h3>
+                    <div class="stat-value" id="today-count">۰</div>
+                    <p class="stat-desc">دارو برنامه‌ریزی شده</p>
                 </div>
                 <div class="stat-card">
-                    <h3>Taken Today</h3>
-                    <div class="stat-value" id="taken-count">0</div>
-                    <p class="stat-desc">Completed medications</p>
+                    <h3>مصرف شده</h3>
+                    <div class="stat-value" id="taken-count">۰</div>
+                    <p class="stat-desc">داروهای مصرف شده</p>
                 </div>
                 <div class="stat-card">
-                    <h3>Inventory</h3>
-                    <div class="stat-value" id="inventory-count">0</div>
-                    <p class="stat-desc">Pills remaining</p>
+                    <h3>موجودی</h3>
+                    <div class="stat-value" id="inventory-count">۰</div>
+                    <p class="stat-desc">قرص باقی‌مانده</p>
                 </div>
                 <div class="stat-card">
-                    <h3>Next Dose</h3>
-                    <div class="stat-value" id="next-dose" style="font-size: 24px;">None</div>
-                    <p class="stat-desc">No medications scheduled</p>
+                    <h3>نوبت بعدی</h3>
+                    <div class="stat-value" id="next-dose" style="font-size: 24px;">ندارد</div>
+                    <p class="stat-desc">هیچ دارویی برنامه‌ریزی نشده</p>
                 </div>
             </div>
             
             <div class="today-pills">
-                <h2><i class="fa-solid fa-list-check"></i> Today's Schedule</h2>
+                <h2><i class="fa-solid fa-list-check"></i> برنامه امروز</h2>
                 <div class="pill-list" id="today-pill-list">
                     <!-- Empty State -->
                     <div class="empty-state">
                         <i class="fa-solid fa-pills"></i>
-                        <h3>No Medications Added Yet</h3>
-                        <p>Add your first medication to get started with tracking your schedule and inventory.</p>
+                        <h3>هنوز دارویی اضافه نشده</h3>
+                        <p>اولین دارو خود را اضافه کنید تا ردیابی برنامه و موجودی خود را شروع کنید.</p>
                         <button class="btn btn-primary" id="add-first-med">
-                            <i class="fa-solid fa-plus-circle"></i> Add First Medication
+                            <i class="fa-solid fa-plus-circle"></i> افزودن اولین دارو
                         </button>
                     </div>
                 </div>
@@ -1099,33 +1281,33 @@
         
         <!-- Add Pill Page -->
         <section id="add-pill" class="content-area">
-            <h2 class="page-title">Add New Medication</h2>
+            <h2 class="page-title">افزودن داروی جدید</h2>
             
             <div class="add-pill-form">
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="pill-name"><i class="fa-solid fa-capsules"></i> Medication Name</label>
-                        <input type="text" id="pill-name" class="form-control" placeholder="e.g., Aspirin, Vitamin D">
+                        <label for="pill-name"><i class="fa-solid fa-capsules"></i> نام دارو</label>
+                        <input type="text" id="pill-name" class="form-control" placeholder="مثال: آسپرین، ویتامین D">
                     </div>
                     <div class="form-group">
-                        <label for="pill-description"><i class="fa-solid fa-info-circle"></i> Description</label>
-                        <input type="text" id="pill-description" class="form-control" placeholder="e.g., For headache, 500mg">
+                        <label for="pill-description"><i class="fa-solid fa-info-circle"></i> توضیحات</label>
+                        <input type="text" id="pill-description" class="form-control" placeholder="مثال: برای سردرد، ۵۰۰ میلی‌گرم">
                     </div>
                 </div>
                 
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="pill-time"><i class="fa-solid fa-clock"></i> Time to Take</label>
+                        <label for="pill-time"><i class="fa-solid fa-clock"></i> زمان مصرف</label>
                         <input type="time" id="pill-time" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label for="pill-amount"><i class="fa-solid fa-calculator"></i> Total Pills</label>
-                        <input type="number" id="pill-amount" class="form-control" placeholder="e.g., 30" min="1">
+                        <label for="pill-amount"><i class="fa-solid fa-calculator"></i> تعداد کل قرص‌ها</label>
+                        <input type="number" id="pill-amount" class="form-control" placeholder="مثال: ۳۰" min="1">
                     </div>
                 </div>
                 
                 <div class="form-group" style="margin-bottom: 35px;">
-                    <label><i class="fa-solid fa-icons"></i> Select Icon</label>
+                    <label><i class="fa-solid fa-icons"></i> انتخاب آیکون</label>
                     <div class="icon-selection">
                         <div class="icon-option selected" data-icon="fa-capsules">
                             <i class="fa-solid fa-capsules"></i>
@@ -1146,50 +1328,50 @@
                 </div>
                 
                 <div class="form-group" style="margin-bottom: 35px;">
-                    <label><i class="fa-solid fa-utensils"></i> Take With Food?</label>
+                    <label><i class="fa-solid fa-utensils"></i> با غذا مصرف شود؟</label>
                     <div class="food-options">
                         <div class="food-option selected" data-food="yes">
                             <i class="fa-solid fa-utensils"></i>
-                            <span>Yes, with food</span>
+                            <span>بله، با غذا</span>
                         </div>
                         <div class="food-option" data-food="no">
                             <i class="fa-solid fa-times"></i>
-                            <span>No, without food</span>
+                            <span>خیر، بدون غذا</span>
                         </div>
                     </div>
                 </div>
                 
                 <button class="btn btn-primary" id="add-pill-btn">
-                    <i class="fa-solid fa-plus-circle"></i> Add Medication
+                    <i class="fa-solid fa-plus-circle"></i> افزودن دارو
                 </button>
             </div>
         </section>
         
         <!-- Inventory Page -->
         <section id="inventory" class="content-area">
-            <h2 class="page-title">Medication Inventory</h2>
+            <h2 class="page-title">موجودی داروها</h2>
             
             <div class="inventory-list" id="inventory-list">
                 <!-- Empty State -->
                 <div class="empty-state" style="grid-column: 1 / -1;">
                     <i class="fa-solid fa-capsules"></i>
-                    <h3>No Medications in Inventory</h3>
-                    <p>Your inventory is empty. Add medications to start tracking your pill counts.</p>
+                    <h3>هیچ دارویی در موجودی نیست</h3>
+                    <p>موجودی شما خالی است. داروها را اضافه کنید تا ردیابی تعداد قرص‌ها را شروع کنید.</p>
                 </div>
             </div>
         </section>
         
         <!-- Settings Page -->
         <section id="settings" class="content-area">
-            <h2 class="page-title">Settings & Notifications</h2>
+            <h2 class="page-title">تنظیمات و اعلان‌ها</h2>
             
             <div class="settings-section">
-                <h3><i class="fa-solid fa-bell"></i> Notification Settings</h3>
+                <h3><i class="fa-solid fa-bell"></i> تنظیمات اعلان‌ها</h3>
                 
                 <div class="setting-item">
                     <div class="setting-info">
-                        <h4>Medication Reminders</h4>
-                        <p>Get notified when it's time to take your medication</p>
+                        <h4>یادآور داروها</h4>
+                        <p>زمان مصرف دارو به شما اطلاع داده شود</p>
                     </div>
                     <label class="toggle-switch">
                         <input type="checkbox" id="reminder-toggle" checked>
@@ -1199,8 +1381,8 @@
                 
                 <div class="setting-item">
                     <div class="setting-info">
-                        <h4>Low Inventory Alerts</h4>
-                        <p>Get notified when medication is running low</p>
+                        <h4>هشدار موجودی کم</h4>
+                        <p>زمانی که دارو در حال اتمام است به شما اطلاع داده شود</p>
                     </div>
                     <label class="toggle-switch">
                         <input type="checkbox" id="inventory-alert-toggle" checked>
@@ -1210,8 +1392,8 @@
                 
                 <div class="setting-item">
                     <div class="setting-info">
-                        <h4>Daily Summary</h4>
-                        <p>Receive a daily summary of medications taken</p>
+                        <h4>خلاصه روزانه</h4>
+                        <p>خلاصه‌ای از داروهای مصرف شده در روز دریافت کنید</p>
                     </div>
                     <label class="toggle-switch">
                         <input type="checkbox" id="summary-toggle">
@@ -1221,26 +1403,24 @@
             </div>
             
             <div class="settings-section">
-                <h3><i class="fa-solid fa-user"></i> Profile Settings</h3>
+                <h3><i class="fa-solid fa-user"></i> تنظیمات پروفایل</h3>
                 
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="user-name"><i class="fa-solid fa-user"></i> Your Name</label>
-                        <input type="text" id="user-name" class="form-control" placeholder="Enter your name">
+                        <label for="user-name"><i class="fa-solid fa-user"></i> نام شما</label>
+                        <input type="text" id="user-name" class="form-control" placeholder="نام خود را وارد کنید">
                     </div>
                     <div class="form-group">
-                        <label for="notification-time"><i class="fa-solid fa-clock"></i> Daily Reminder Time</label>
+                        <label for="notification-time"><i class="fa-solid fa-clock"></i> زمان یادآوری روزانه</label>
                         <input type="time" id="notification-time" class="form-control">
                     </div>
                 </div>
                 
                 <button class="btn btn-primary" id="save-settings-btn">
-                    <i class="fa-solid fa-save"></i> Save Settings
+                    <i class="fa-solid fa-save"></i> ذخیره تنظیمات
                 </button>
             </div>
         </section>
-        
-
     </div>
     
     <!-- Notification -->
@@ -1249,8 +1429,8 @@
             <i class="fa-solid fa-check"></i>
         </div>
         <div class="notification-info">
-            <h4 id="notification-title">Success!</h4>
-            <p id="notification-message">Your medication has been added successfully.</p>
+            <h4 id="notification-title">موفقیت!</h4>
+            <p id="notification-message">داروی شما با موفقیت اضافه شد.</p>
         </div>
     </div>
     
@@ -1332,12 +1512,12 @@
             // Update stats
             updateStats();
             
-            // Show welcome notification
+            // Show welcome notification - تغییر پیام خوش‌آمدگویی
             setTimeout(() => {
                 if (medications.length === 0) {
-                    showNotification("Welcome to Sepill!", "Your smart medication tracker is ready. Add your first medication to get started.", "success");
+                    showNotification("سلام لوبیا", "و خوش اومدی لوبیا", "success");
                 } else {
-                    showNotification("Welcome Back!", "Your medications have been loaded successfully.", "success");
+                    showNotification("سلام لوبیا", "و خوش اومدی لوبیا", "success");
                 }
             }, 1000);
         });
@@ -1379,10 +1559,10 @@
                 todayPillList.innerHTML = `
                     <div class="empty-state">
                         <i class="fa-solid fa-pills"></i>
-                        <h3>No Medications Added Yet</h3>
-                        <p>Add your first medication to get started with tracking your schedule and inventory.</p>
+                        <h3>هنوز دارویی اضافه نشده</h3>
+                        <p>اولین دارو خود را اضافه کنید تا ردیابی برنامه و موجودی خود را شروع کنید.</p>
                         <button class="btn btn-primary" id="add-first-med">
-                            <i class="fa-solid fa-plus-circle"></i> Add First Medication
+                            <i class="fa-solid fa-plus-circle"></i> افزودن اولین دارو
                         </button>
                     </div>
                 `;
@@ -1403,10 +1583,10 @@
                 pillItem.dataset.id = med.id;
                 
                 const iconsHtml = `
-                    <div class="pill-icon" title="Pill type">
+                    <div class="pill-icon" title="نوع دارو">
                         <i class="fa-solid ${med.icon}"></i>
                     </div>
-                    ${med.withFood ? '<div class="pill-icon" title="Take with food"><i class="fa-solid fa-utensils"></i></div>' : ''}
+                    ${med.withFood ? '<div class="pill-icon" title="با غذا مصرف شود"><i class="fa-solid fa-utensils"></i></div>' : ''}
                 `;
                 
                 pillItem.innerHTML = `
@@ -1422,7 +1602,7 @@
                         </div>
                     </div>
                     <div class="pill-time">${formatTime(med.time)}</div>
-                    <div class="pill-amount">${med.amount} left</div>
+                    <div class="pill-amount">${med.amount} باقی‌مانده</div>
                 `;
                 
                 todayPillList.appendChild(pillItem);
@@ -1446,8 +1626,8 @@
                 inventoryList.innerHTML = `
                     <div class="empty-state" style="grid-column: 1 / -1;">
                         <i class="fa-solid fa-capsules"></i>
-                        <h3>No Medications in Inventory</h3>
-                        <p>Your inventory is empty. Add medications to start tracking your pill counts.</p>
+                        <h3>هیچ دارویی در موجودی نیست</h3>
+                        <p>موجودی شما خالی است. داروها را اضافه کنید تا ردیابی تعداد قرص‌ها را شروع کنید.</p>
                     </div>
                 `;
                 return;
@@ -1469,16 +1649,16 @@
                         <div class="schedule-item">
                             <i class="fa-solid fa-clock"></i> ${formatTime(med.time)}
                         </div>
-                        ${med.withFood ? '<div class="schedule-item"><i class="fa-solid fa-utensils"></i> With food</div>' : ''}
+                        ${med.withFood ? '<div class="schedule-item"><i class="fa-solid fa-utensils"></i> با غذا</div>' : ''}
                     </div>
                     <div class="inventory-footer">
                         <div>
                             <div class="pill-count">${med.amount}</div>
-                            <div class="pill-count-label">pills remaining</div>
+                            <div class="pill-count-label">قرص باقی‌مانده</div>
                         </div>
                         <div>
-                            ${med.taken ? '<span style="color: var(--success-color); font-weight: 600;"><i class="fa-solid fa-check-circle"></i> Taken today</span>' : 
-                            '<span style="color: var(--warning-color); font-weight: 600;"><i class="fa-solid fa-clock"></i> Pending</span>'}
+                            ${med.taken ? '<span style="color: var(--success-color); font-weight: 600;"><i class="fa-solid fa-check-circle"></i> مصرف شده امروز</span>' : 
+                            '<span style="color: var(--warning-color); font-weight: 600;"><i class="fa-solid fa-clock"></i> در انتظار</span>'}
                         </div>
                     </div>
                 `;
@@ -1504,12 +1684,12 @@
             
             // Validate inputs
             if (!name || !description || !time || !amount) {
-                showNotification("Missing Information", "Please fill in all fields.", "warning");
+                showNotification("اطلاعات ناقص", "لطفا تمام فیلدها را پر کنید.", "warning");
                 return;
             }
             
             if (amount <= 0) {
-                showNotification("Invalid Amount", "Please enter a valid number of pills.", "warning");
+                showNotification("مقدار نامعتبر", "لطفا تعداد معتبری از قرص‌ها را وارد کنید.", "warning");
                 return;
             }
             
@@ -1538,7 +1718,7 @@
             document.getElementById('pill-amount').value = '';
             
             // Show success notification
-            showNotification("Medication Added", `${name} has been added to your tracker.`, "success");
+            showNotification("دارو اضافه شد", `${name} با موفقیت به ردیاب شما اضافه شد.`, "success");
             
             // Update UI
             loadTodayPills();
@@ -1552,7 +1732,7 @@
             setTimeout(() => {
                 const reminderToggle = document.getElementById('reminder-toggle');
                 if (reminderToggle && reminderToggle.checked) {
-                    showNotification("Medication Reminder", `Remember to take ${name} at ${formatTime(time)}${withFood ? ' with food' : ''}.`, "warning");
+                    showNotification("یادآوری دارو", `یادتان باشد ${name} را ساعت ${formatTime(time)}${withFood ? ' با غذا' : ''} مصرف کنید.`, "warning");
                 }
             }, 1500);
         }
@@ -1574,7 +1754,7 @@
                 if (medications[medIndex].amount <= refillThreshold && medications[medIndex].amount > 0) {
                     const inventoryAlertToggle = document.getElementById('inventory-alert-toggle');
                     if (inventoryAlertToggle && inventoryAlertToggle.checked) {
-                        showNotification("Time to Refill!", `${medications[medIndex].name} needs a refill soon (${medications[medIndex].amount} of ${originalAmount} remaining).`, "warning");
+                        showNotification("زمان شارژ مجدد!", `${medications[medIndex].name} به زودی نیاز به شارژ مجدد دارد (${medications[medIndex].amount} از ${originalAmount} باقی‌مانده).`, "warning");
                     }
                 }
                 
@@ -1582,7 +1762,7 @@
                 if (medications[medIndex].amount <= 3 && medications[medIndex].amount > 0) {
                     const inventoryAlertToggle = document.getElementById('inventory-alert-toggle');
                     if (inventoryAlertToggle && inventoryAlertToggle.checked) {
-                        showNotification("Low Inventory", `${medications[medIndex].name} is running critically low (${medications[medIndex].amount} left).`, "warning");
+                        showNotification("موجودی کم", `${medications[medIndex].name} به شدت در حال اتمام است (${medications[medIndex].amount} باقی‌مانده).`, "warning");
                     }
                 }
             } else if (!medications[medIndex].taken && medications[medIndex].amount >= 0) {
@@ -1595,8 +1775,8 @@
             
             // Show notification
             const medName = medications[medIndex].name;
-            const action = medications[medIndex].taken ? "marked as taken" : "marked as not taken";
-            showNotification("Status Updated", `${medName} has been ${action}.`, "success");
+            const action = medications[medIndex].taken ? "مصرف شده" : "مصرف نشده";
+            showNotification("وضعیت به‌روزرسانی شد", `${medName} به عنوان ${action} علامت‌گذاری شد.`, "success");
             
             // Update UI
             updatePillItemUI(id, medications[medIndex].taken);
@@ -1625,7 +1805,7 @@
                 if (medIndex !== -1) {
                     const pillAmountElement = pillItem.querySelector('.pill-amount');
                     if (pillAmountElement) {
-                        pillAmountElement.textContent = `${medications[medIndex].amount} left`;
+                        pillAmountElement.textContent = `${medications[medIndex].amount} باقی‌مانده`;
                     }
                 }
             }
@@ -1666,7 +1846,7 @@
                 document.getElementById('next-dose').textContent = formatTime(nextDoseMed.time);
                 document.getElementById('next-dose').style.fontSize = '24px';
             } else {
-                document.getElementById('next-dose').textContent = "None";
+                document.getElementById('next-dose').textContent = "ندارد";
                 document.getElementById('next-dose').style.fontSize = '24px';
             }
         }
@@ -1701,9 +1881,24 @@
                     const setting = this.id;
                     const isEnabled = this.checked;
                     
+                    let settingName = '';
+                    switch(setting) {
+                        case 'reminder-toggle':
+                            settingName = 'یادآور داروها';
+                            break;
+                        case 'inventory-alert-toggle':
+                            settingName = 'هشدار موجودی کم';
+                            break;
+                        case 'summary-toggle':
+                            settingName = 'خلاصه روزانه';
+                            break;
+                        default:
+                            settingName = setting.replace('-toggle', '').replace(/-/g, ' ');
+                    }
+                    
                     showNotification(
-                        "Setting Updated", 
-                        `${setting.replace('-toggle', '').replace(/-/g, ' ')} ${isEnabled ? 'enabled' : 'disabled'}.`,
+                        "تنظیمات به‌روزرسانی شد", 
+                        `${settingName} ${isEnabled ? 'فعال' : 'غیرفعال'} شد.`,
                         "success"
                     );
                 });
@@ -1715,10 +1910,10 @@
                 const notificationTime = document.getElementById('notification-time').value;
                 
                 if (userName) {
-                    document.querySelector('.user-profile h4').textContent = `${userName}'s Tracker`;
+                    document.querySelector('.user-profile h4').textContent = `ردیاب ${userName}`;
                 }
                 
-                showNotification("Settings Saved", "Your preferences have been saved successfully.", "success");
+                showNotification("تنظیمات ذخیره شد", "ترجیحات شما با موفقیت ذخیره شدند.", "success");
             });
         }
         
@@ -1741,12 +1936,11 @@
         
         // Format time for display
         function formatTime(timeString) {
-            if (!timeString) return "Not set";
+            if (!timeString) return "تنظیم نشده";
             
             const [hours, minutes] = timeString.split(':').map(Number);
-            const period = hours >= 12 ? 'PM' : 'AM';
             const displayHours = hours % 12 || 12;
-            return `${displayHours}:${minutes.toString().padStart(2, '0')} ${period}`;
+            return `${displayHours}:${minutes.toString().padStart(2, '0')}`;
         }
     </script>
 </body>
