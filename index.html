@@ -1,0 +1,1753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sepill - Smart Medication Tracker</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-color: #8B7FFF;
+            --secondary-color: #A799FF;
+            --accent-pink: #FF8FB9;
+            --accent-orange: #FFB088;
+            --gradient-start: #8B7FFF;
+            --gradient-end: #A799FF;
+            --light-color: #F5F3FF;
+            --dark-color: #2D2850;
+            --success-color: #6EE7B7;
+            --warning-color: #FCD34D;
+            --danger-color: #F87171;
+            --gray-color: #9CA3AF;
+            --card-bg: rgba(255, 255, 255, 0.95);
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --border-radius: 24px;
+            --box-shadow: 0 20px 60px rgba(139, 127, 255, 0.15);
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #E9E4FF 0%, #D5CDFF 50%, #C5B9FF 100%);
+            color: var(--dark-color);
+            line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(139, 127, 255, 0.1) 0%, transparent 70%);
+            animation: float 20s infinite ease-in-out;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(-20px, -20px) rotate(5deg); }
+        }
+        
+        .app-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Header Styles */
+        .app-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo-icon {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            width: 60px;
+            height: 60px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(139, 127, 255, 0.3);
+            animation: bounce 2s infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        
+        .logo-icon i {
+            font-size: 28px;
+            color: white;
+        }
+        
+        .logo-text h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 32px;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .logo-text p {
+            font-size: 14px;
+            color: var(--gray-color);
+            font-weight: 500;
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            padding: 12px 24px;
+            border-radius: 50px;
+            box-shadow: 0 8px 32px rgba(139, 127, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-pink), var(--accent-orange));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 18px;
+            box-shadow: 0 5px 15px rgba(255, 143, 185, 0.4);
+        }
+        
+        .user-profile h4 {
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+        
+        .user-profile p {
+            font-size: 12px;
+            color: var(--gray-color);
+        }
+        
+        /* Navigation Styles */
+        .app-nav {
+            display: flex;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 10px;
+            margin-bottom: 40px;
+            box-shadow: 0 15px 50px rgba(139, 127, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        
+        .nav-item {
+            flex: 1;
+            text-align: center;
+            padding: 16px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            color: var(--gray-color);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            opacity: 0;
+            transition: var(--transition);
+            z-index: -1;
+        }
+        
+        .nav-item.active {
+            color: white;
+            box-shadow: 0 8px 24px rgba(139, 127, 255, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .nav-item.active::before {
+            opacity: 1;
+        }
+        
+        .nav-item:hover:not(.active) {
+            background: rgba(139, 127, 255, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        /* Main Content Area */
+        .content-area {
+            flex: 1;
+            display: none;
+        }
+        
+        .content-area.active {
+            display: block;
+            animation: slideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        @keyframes slideUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0);
+            }
+        }
+        
+        .page-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: var(--dark-color);
+        }
+        
+        /* Dashboard Page */
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .stat-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(139, 127, 255, 0.1) 0%, transparent 70%);
+            transition: var(--transition);
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 70px rgba(139, 127, 255, 0.25);
+        }
+        
+        .stat-card:hover::before {
+            top: -30%;
+            right: -30%;
+        }
+        
+        .stat-card h3 {
+            font-size: 13px;
+            color: var(--gray-color);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+        
+        .stat-value {
+            font-size: 40px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+        
+        .stat-desc {
+            font-size: 14px;
+            color: var(--gray-color);
+            font-weight: 500;
+        }
+        
+        .today-pills {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: var(--border-radius);
+            padding: 35px;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        
+        .today-pills h2 {
+            font-size: 22px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            color: var(--dark-color);
+        }
+        
+        .pill-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        /* Pill Item */
+        .pill-item {
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, rgba(139, 127, 255, 0.08), rgba(167, 153, 255, 0.08));
+            border-radius: 20px;
+            padding: 25px;
+            transition: var(--transition);
+            border-left: 5px solid;
+            border-image: linear-gradient(135deg, var(--gradient-start), var(--gradient-end)) 1;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .pill-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.2), transparent);
+            opacity: 0;
+            transition: var(--transition);
+        }
+        
+        .pill-item:hover {
+            transform: translateX(10px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(139, 127, 255, 0.2);
+        }
+        
+        .pill-item:hover::before {
+            opacity: 1;
+        }
+        
+        .pill-item.checked {
+            opacity: 0.6;
+            background: rgba(156, 163, 175, 0.1);
+        }
+        
+        .pill-item.checked .pill-info h3 {
+            text-decoration: line-through;
+            color: var(--gray-color);
+        }
+        
+        .pill-checkbox-container {
+            margin-right: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        
+        .pill-checkbox-real {
+            display: none; /* Hide the real checkbox */
+        }
+        
+        .pill-checkbox-custom {
+            width: 28px;
+            height: 28px;
+            border-radius: 10px;
+            border: 3px solid var(--primary-color);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            background: white;
+            position: relative;
+        }
+        
+        .pill-checkbox-custom:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(139, 127, 255, 0.3);
+        }
+        
+        .pill-checkbox-real:checked + .pill-checkbox-custom {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            border-color: transparent;
+        }
+        
+        .pill-checkbox-real:checked + .pill-checkbox-custom::after {
+            content: '✓';
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        .pill-info {
+            flex: 1;
+        }
+        
+        .pill-info h3 {
+            font-size: 19px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--dark-color);
+        }
+        
+        .pill-info p {
+            font-size: 14px;
+            color: var(--gray-color);
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .pill-icons {
+            display: flex;
+            gap: 12px;
+            margin-top: 12px;
+        }
+        
+        .pill-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 12px;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            font-size: 16px;
+            box-shadow: 0 4px 12px rgba(139, 127, 255, 0.15);
+            transition: var(--transition);
+        }
+        
+        .pill-icon:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+        
+        .pill-time {
+            font-weight: 700;
+            color: var(--primary-color);
+            font-size: 20px;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+        
+        .pill-amount {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            font-weight: 700;
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 14px;
+            flex-shrink: 0;
+            box-shadow: 0 5px 15px rgba(139, 127, 255, 0.3);
+        }
+        
+        /* Add Pill Page */
+        .add-pill-form {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: var(--border-radius);
+            padding: 35px;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 5px;
+        }
+        
+        .form-group label {
+            font-weight: 600;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--dark-color);
+            font-size: 15px;
+        }
+        
+        .form-control {
+            padding: 16px 20px;
+            border: 2px solid rgba(139, 127, 255, 0.2);
+            border-radius: 16px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            transition: var(--transition);
+            background: white;
+            font-weight: 500;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 4px rgba(139, 127, 255, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .icon-selection {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            margin-top: 15px;
+        }
+        
+        .icon-option {
+            width: 70px;
+            height: 70px;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: white;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 28px;
+            color: var(--primary-color);
+            border: 3px solid rgba(139, 127, 255, 0.2);
+            box-shadow: 0 4px 12px rgba(139, 127, 255, 0.1);
+        }
+        
+        .icon-option:hover {
+            transform: scale(1.1) rotate(5deg);
+            border-color: var(--primary-color);
+            box-shadow: 0 6px 18px rgba(139, 127, 255, 0.25);
+        }
+        
+        .icon-option.selected {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            box-shadow: 0 8px 24px rgba(139, 127, 255, 0.4);
+            border-color: var(--primary-color);
+        }
+        
+        /* Food Options Styling */
+        .food-options {
+            display: flex;
+            gap: 25px;
+            margin-top: 15px;
+        }
+        
+        .food-option {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            padding: 20px 30px;
+            border-radius: 18px;
+            background: white;
+            cursor: pointer;
+            transition: var(--transition);
+            flex: 1;
+            color: var(--dark-color);
+            font-weight: 600;
+            border: 3px solid rgba(139, 127, 255, 0.2);
+            box-shadow: 0 4px 12px rgba(139, 127, 255, 0.1);
+            min-height: 65px;
+        }
+        
+        .food-option:hover {
+            transform: translateY(-3px);
+            border-color: var(--primary-color);
+            box-shadow: 0 6px 18px rgba(139, 127, 255, 0.25);
+        }
+        
+        .food-option.selected {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            box-shadow: 0 8px 24px rgba(139, 127, 255, 0.4);
+            border-color: var(--primary-color);
+        }
+        
+        .food-option i {
+            font-size: 22px;
+        }
+        
+        .food-option span {
+            font-size: 15px;
+        }
+        
+        .btn {
+            padding: 18px 36px;
+            border-radius: 16px;
+            border: none;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn i {
+            font-size: 18px;
+            z-index: 1;
+        }
+        
+        .btn span {
+            z-index: 1;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            box-shadow: 0 10px 30px rgba(139, 127, 255, 0.4);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(139, 127, 255, 0.5);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(-1px);
+        }
+        
+        .btn-primary i {
+            color: white;
+        }
+        
+        /* Pill Inventory Page */
+        .inventory-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+        }
+        
+        .inventory-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .inventory-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(139, 127, 255, 0.08) 0%, transparent 70%);
+            transition: var(--transition);
+        }
+        
+        .inventory-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 70px rgba(139, 127, 255, 0.25);
+        }
+        
+        .inventory-card:hover::before {
+            top: -30%;
+            right: -30%;
+        }
+        
+        .inventory-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .pill-name {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--dark-color);
+        }
+        
+        .pill-description {
+            color: var(--gray-color);
+            margin-bottom: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        
+        .pill-schedule {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .schedule-item {
+            background: rgba(139, 127, 255, 0.1);
+            padding: 10px 18px;
+            border-radius: 50px;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+        
+        .inventory-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .pill-count {
+            font-size: 32px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .pill-count-label {
+            font-size: 14px;
+            color: var(--gray-color);
+            font-weight: 600;
+        }
+        
+        /* Settings Page */
+        .settings-section {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: var(--border-radius);
+            padding: 35px;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        
+        .settings-section h3 {
+            font-size: 22px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            color: var(--dark-color);
+        }
+        
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 64px;
+            height: 34px;
+        }
+        
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ddd;
+            transition: .4s;
+            border-radius: 34px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        
+        input:checked + .slider {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(30px);
+        }
+        
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(139, 127, 255, 0.1);
+        }
+        
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+        
+        .setting-info h4 {
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--dark-color);
+        }
+        
+        .setting-info p {
+            font-size: 14px;
+            color: var(--gray-color);
+            font-weight: 500;
+        }
+        
+        /* Notifications */
+        .notification {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 0 20px 60px rgba(139, 127, 255, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            z-index: 1000;
+            max-width: 380px;
+            transform: translateX(450px);
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+        
+        .notification-icon {
+            width: 55px;
+            height: 55px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            color: white;
+            flex-shrink: 0;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+        }
+        
+        .notification-info h4 {
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--dark-color);
+        }
+        
+        .notification-info p {
+            font-size: 14px;
+            color: var(--gray-color);
+            font-weight: 500;
+        }
+        
+        .notification-success .notification-icon {
+            background: linear-gradient(135deg, #6EE7B7, #34D399);
+        }
+        
+        .notification-warning .notification-icon {
+            background: linear-gradient(135deg, #FCD34D, #FBBF24);
+        }
+        
+        /* Footer */
+        .app-footer {
+            text-align: center;
+            padding: 30px 0;
+            color: var(--gray-color);
+            font-size: 14px;
+            margin-top: 50px;
+            border-top: 1px solid rgba(139, 127, 255, 0.1);
+            font-weight: 500;
+        }
+        
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--gray-color);
+        }
+        
+        .empty-state i {
+            font-size: 70px;
+            margin-bottom: 25px;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            opacity: 0.4;
+        }
+        
+        .empty-state h3 {
+            font-size: 24px;
+            margin-bottom: 12px;
+            color: var(--dark-color);
+            font-weight: 700;
+        }
+        
+        .empty-state p {
+            max-width: 500px;
+            margin: 0 auto 30px;
+            font-weight: 500;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .app-nav {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .dashboard-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .pill-item {
+                flex-wrap: wrap;
+            }
+            
+            .pill-time, .pill-amount {
+                margin-top: 10px;
+                margin-right: 0;
+                width: 100%;
+            }
+            
+            .food-options {
+                flex-direction: column;
+            }
+            
+            .notification {
+                max-width: calc(100% - 40px);
+                right: 20px;
+            }
+            
+            .logo-text h1 {
+                font-size: 26px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-pills"></i>
+                </div>
+                <div class="logo-text">
+                    <h1>Sepill</h1>
+                    <p>Smart Medication Tracker</p>
+                </div>
+            </div>
+            <div class="user-profile">
+                <div class="user-avatar">S</div>
+                <div>
+                    <h4>Sarah's Tracker</h4>
+                    <p style="font-size: 12px; color: var(--gray-color);">Last sync: Today</p>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Navigation -->
+        <nav class="app-nav">
+            <div class="nav-item active" data-page="dashboard">
+                <i class="fa-solid fa-home"></i>
+                <span>Dashboard</span>
+            </div>
+            <div class="nav-item" data-page="add-pill">
+                <i class="fa-solid fa-plus-circle"></i>
+                <span>Add Medication</span>
+            </div>
+            <div class="nav-item" data-page="inventory">
+                <i class="fa-solid fa-capsules"></i>
+                <span>Inventory</span>
+            </div>
+            <div class="nav-item" data-page="settings">
+                <i class="fa-solid fa-cog"></i>
+                <span>Settings</span>
+            </div>
+        </nav>
+        
+        <!-- Dashboard Page -->
+        <section id="dashboard" class="content-area active">
+            <h2 class="page-title">Today's Medications</h2>
+            
+            <div class="dashboard-cards">
+                <div class="stat-card">
+                    <h3>To Take Today</h3>
+                    <div class="stat-value" id="today-count">0</div>
+                    <p class="stat-desc">Medications scheduled</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Taken Today</h3>
+                    <div class="stat-value" id="taken-count">0</div>
+                    <p class="stat-desc">Completed medications</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Inventory</h3>
+                    <div class="stat-value" id="inventory-count">0</div>
+                    <p class="stat-desc">Pills remaining</p>
+                </div>
+                <div class="stat-card">
+                    <h3>Next Dose</h3>
+                    <div class="stat-value" id="next-dose" style="font-size: 24px;">None</div>
+                    <p class="stat-desc">No medications scheduled</p>
+                </div>
+            </div>
+            
+            <div class="today-pills">
+                <h2><i class="fa-solid fa-list-check"></i> Today's Schedule</h2>
+                <div class="pill-list" id="today-pill-list">
+                    <!-- Empty State -->
+                    <div class="empty-state">
+                        <i class="fa-solid fa-pills"></i>
+                        <h3>No Medications Added Yet</h3>
+                        <p>Add your first medication to get started with tracking your schedule and inventory.</p>
+                        <button class="btn btn-primary" id="add-first-med">
+                            <i class="fa-solid fa-plus-circle"></i> Add First Medication
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Add Pill Page -->
+        <section id="add-pill" class="content-area">
+            <h2 class="page-title">Add New Medication</h2>
+            
+            <div class="add-pill-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="pill-name"><i class="fa-solid fa-capsules"></i> Medication Name</label>
+                        <input type="text" id="pill-name" class="form-control" placeholder="e.g., Aspirin, Vitamin D">
+                    </div>
+                    <div class="form-group">
+                        <label for="pill-description"><i class="fa-solid fa-info-circle"></i> Description</label>
+                        <input type="text" id="pill-description" class="form-control" placeholder="e.g., For headache, 500mg">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="pill-time"><i class="fa-solid fa-clock"></i> Time to Take</label>
+                        <input type="time" id="pill-time" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="pill-amount"><i class="fa-solid fa-calculator"></i> Total Pills</label>
+                        <input type="number" id="pill-amount" class="form-control" placeholder="e.g., 30" min="1">
+                    </div>
+                </div>
+                
+                <div class="form-group" style="margin-bottom: 35px;">
+                    <label><i class="fa-solid fa-icons"></i> Select Icon</label>
+                    <div class="icon-selection">
+                        <div class="icon-option selected" data-icon="fa-capsules">
+                            <i class="fa-solid fa-capsules"></i>
+                        </div>
+                        <div class="icon-option" data-icon="fa-tablets">
+                            <i class="fa-solid fa-tablets"></i>
+                        </div>
+                        <div class="icon-option" data-icon="fa-prescription-bottle">
+                            <i class="fa-solid fa-prescription-bottle"></i>
+                        </div>
+                        <div class="icon-option" data-icon="fa-heart-pulse">
+                            <i class="fa-solid fa-heart-pulse"></i>
+                        </div>
+                        <div class="icon-option" data-icon="fa-stethoscope">
+                            <i class="fa-solid fa-stethoscope"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group" style="margin-bottom: 35px;">
+                    <label><i class="fa-solid fa-utensils"></i> Take With Food?</label>
+                    <div class="food-options">
+                        <div class="food-option selected" data-food="yes">
+                            <i class="fa-solid fa-utensils"></i>
+                            <span>Yes, with food</span>
+                        </div>
+                        <div class="food-option" data-food="no">
+                            <i class="fa-solid fa-times"></i>
+                            <span>No, without food</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" id="add-pill-btn">
+                    <i class="fa-solid fa-plus-circle"></i> Add Medication
+                </button>
+            </div>
+        </section>
+        
+        <!-- Inventory Page -->
+        <section id="inventory" class="content-area">
+            <h2 class="page-title">Medication Inventory</h2>
+            
+            <div class="inventory-list" id="inventory-list">
+                <!-- Empty State -->
+                <div class="empty-state" style="grid-column: 1 / -1;">
+                    <i class="fa-solid fa-capsules"></i>
+                    <h3>No Medications in Inventory</h3>
+                    <p>Your inventory is empty. Add medications to start tracking your pill counts.</p>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Settings Page -->
+        <section id="settings" class="content-area">
+            <h2 class="page-title">Settings & Notifications</h2>
+            
+            <div class="settings-section">
+                <h3><i class="fa-solid fa-bell"></i> Notification Settings</h3>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <h4>Medication Reminders</h4>
+                        <p>Get notified when it's time to take your medication</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="reminder-toggle" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <h4>Low Inventory Alerts</h4>
+                        <p>Get notified when medication is running low</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="inventory-alert-toggle" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                
+                <div class="setting-item">
+                    <div class="setting-info">
+                        <h4>Daily Summary</h4>
+                        <p>Receive a daily summary of medications taken</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="summary-toggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="settings-section">
+                <h3><i class="fa-solid fa-user"></i> Profile Settings</h3>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="user-name"><i class="fa-solid fa-user"></i> Your Name</label>
+                        <input type="text" id="user-name" class="form-control" placeholder="Enter your name">
+                    </div>
+                    <div class="form-group">
+                        <label for="notification-time"><i class="fa-solid fa-clock"></i> Daily Reminder Time</label>
+                        <input type="time" id="notification-time" class="form-control">
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" id="save-settings-btn">
+                    <i class="fa-solid fa-save"></i> Save Settings
+                </button>
+            </div>
+        </section>
+        
+
+    </div>
+    
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <div class="notification-icon">
+            <i class="fa-solid fa-check"></i>
+        </div>
+        <div class="notification-info">
+            <h4 id="notification-title">Success!</h4>
+            <p id="notification-message">Your medication has been added successfully.</p>
+        </div>
+    </div>
+    
+    <script>
+        // Sample data for the app - Load from localStorage or start empty
+        let medications = [];
+        
+        // Load medications from localStorage on startup
+        function loadFromStorage() {
+            const saved = localStorage.getItem('sepill_medications');
+            if (saved) {
+                try {
+                    medications = JSON.parse(saved);
+                } catch (e) {
+                    console.error('Error loading medications:', e);
+                    medications = [];
+                }
+            }
+        }
+        
+        // Save medications to localStorage
+        function saveToStorage() {
+            try {
+                localStorage.setItem('sepill_medications', JSON.stringify(medications));
+            } catch (e) {
+                console.error('Error saving medications:', e);
+            }
+        }
+        
+        // DOM Elements
+        const navItems = document.querySelectorAll('.nav-item');
+        const contentAreas = document.querySelectorAll('.content-area');
+        const todayPillList = document.getElementById('today-pill-list');
+        const inventoryList = document.getElementById('inventory-list');
+        const addPillBtn = document.getElementById('add-pill-btn');
+        const addFirstMedBtn = document.getElementById('add-first-med');
+        const notification = document.getElementById('notification');
+        const notificationTitle = document.getElementById('notification-title');
+        const notificationMessage = document.getElementById('notification-message');
+        
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load saved medications first
+            loadFromStorage();
+            
+            // Set up navigation
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    const pageId = this.getAttribute('data-page');
+                    switchPage(pageId);
+                });
+            });
+            
+            // Load today's pills
+            loadTodayPills();
+            
+            // Load inventory
+            loadInventory();
+            
+            // Set up add pill button
+            addPillBtn.addEventListener('click', addNewPill);
+            
+            // Set up "Add First Medication" button
+            if (addFirstMedBtn) {
+                addFirstMedBtn.addEventListener('click', function() {
+                    switchPage('add-pill');
+                });
+            }
+            
+            // Set up icon selection
+            setupIconSelection();
+            
+            // Set up food selection
+            setupFoodSelection();
+            
+            // Set up notification toggles
+            setupToggles();
+            
+            // Update stats
+            updateStats();
+            
+            // Show welcome notification
+            setTimeout(() => {
+                if (medications.length === 0) {
+                    showNotification("Welcome to Sepill!", "Your smart medication tracker is ready. Add your first medication to get started.", "success");
+                } else {
+                    showNotification("Welcome Back!", "Your medications have been loaded successfully.", "success");
+                }
+            }, 1000);
+        });
+        
+        // Switch between pages
+        function switchPage(pageId) {
+            // Update active nav item
+            navItems.forEach(item => {
+                if (item.getAttribute('data-page') === pageId) {
+                    item.classList.add('active');
+                } else {
+                    item.classList.remove('active');
+                }
+            });
+            
+            // Show active content area
+            contentAreas.forEach(area => {
+                if (area.id === pageId) {
+                    area.classList.add('active');
+                } else {
+                    area.classList.remove('active');
+                }
+            });
+            
+            // Update page-specific content
+            if (pageId === 'dashboard') {
+                loadTodayPills();
+                updateStats();
+            } else if (pageId === 'inventory') {
+                loadInventory();
+            }
+        }
+        
+        // Load today's pills
+        function loadTodayPills() {
+            todayPillList.innerHTML = '';
+            
+            if (medications.length === 0) {
+                todayPillList.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fa-solid fa-pills"></i>
+                        <h3>No Medications Added Yet</h3>
+                        <p>Add your first medication to get started with tracking your schedule and inventory.</p>
+                        <button class="btn btn-primary" id="add-first-med">
+                            <i class="fa-solid fa-plus-circle"></i> Add First Medication
+                        </button>
+                    </div>
+                `;
+                
+                // Re-attach event listener to the new button
+                const newAddFirstMedBtn = document.getElementById('add-first-med');
+                if (newAddFirstMedBtn) {
+                    newAddFirstMedBtn.addEventListener('click', function() {
+                        switchPage('add-pill');
+                    });
+                }
+                return;
+            }
+            
+            medications.forEach(med => {
+                const pillItem = document.createElement('div');
+                pillItem.className = `pill-item ${med.taken ? 'checked' : ''}`;
+                pillItem.dataset.id = med.id;
+                
+                const iconsHtml = `
+                    <div class="pill-icon" title="Pill type">
+                        <i class="fa-solid ${med.icon}"></i>
+                    </div>
+                    ${med.withFood ? '<div class="pill-icon" title="Take with food"><i class="fa-solid fa-utensils"></i></div>' : ''}
+                `;
+                
+                pillItem.innerHTML = `
+                    <div class="pill-checkbox-container">
+                        <input type="checkbox" class="pill-checkbox-real" id="pill-${med.id}" ${med.taken ? 'checked' : ''} data-id="${med.id}">
+                        <label for="pill-${med.id}" class="pill-checkbox-custom"></label>
+                    </div>
+                    <div class="pill-info">
+                        <h3>${med.name}</h3>
+                        <p>${med.description}</p>
+                        <div class="pill-icons">
+                            ${iconsHtml}
+                        </div>
+                    </div>
+                    <div class="pill-time">${formatTime(med.time)}</div>
+                    <div class="pill-amount">${med.amount} left</div>
+                `;
+                
+                todayPillList.appendChild(pillItem);
+            });
+            
+            // Add event listeners to all checkboxes
+            const checkboxes = document.querySelectorAll('.pill-checkbox-real');
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const id = parseInt(this.getAttribute('data-id'));
+                    togglePillTaken(id);
+                });
+            });
+        }
+        
+        // Load inventory
+        function loadInventory() {
+            inventoryList.innerHTML = '';
+            
+            if (medications.length === 0) {
+                inventoryList.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1 / -1;">
+                        <i class="fa-solid fa-capsules"></i>
+                        <h3>No Medications in Inventory</h3>
+                        <p>Your inventory is empty. Add medications to start tracking your pill counts.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            medications.forEach(med => {
+                const inventoryCard = document.createElement('div');
+                inventoryCard.className = 'inventory-card';
+                
+                inventoryCard.innerHTML = `
+                    <div class="inventory-header">
+                        <div class="pill-name">${med.name}</div>
+                        <div class="pill-icon">
+                            <i class="fa-solid ${med.icon}"></i>
+                        </div>
+                    </div>
+                    <div class="pill-description">${med.description}</div>
+                    <div class="pill-schedule">
+                        <div class="schedule-item">
+                            <i class="fa-solid fa-clock"></i> ${formatTime(med.time)}
+                        </div>
+                        ${med.withFood ? '<div class="schedule-item"><i class="fa-solid fa-utensils"></i> With food</div>' : ''}
+                    </div>
+                    <div class="inventory-footer">
+                        <div>
+                            <div class="pill-count">${med.amount}</div>
+                            <div class="pill-count-label">pills remaining</div>
+                        </div>
+                        <div>
+                            ${med.taken ? '<span style="color: var(--success-color); font-weight: 600;"><i class="fa-solid fa-check-circle"></i> Taken today</span>' : 
+                            '<span style="color: var(--warning-color); font-weight: 600;"><i class="fa-solid fa-clock"></i> Pending</span>'}
+                        </div>
+                    </div>
+                `;
+                
+                inventoryList.appendChild(inventoryCard);
+            });
+        }
+        
+        // Add new pill
+        function addNewPill() {
+            const name = document.getElementById('pill-name').value;
+            const description = document.getElementById('pill-description').value;
+            const time = document.getElementById('pill-time').value;
+            const amount = parseInt(document.getElementById('pill-amount').value);
+            
+            // Get selected icon
+            const selectedIcon = document.querySelector('.icon-option.selected[data-icon]');
+            const icon = selectedIcon ? selectedIcon.getAttribute('data-icon') : 'fa-capsules';
+            
+            // Get food preference
+            const foodOption = document.querySelector('.food-option.selected');
+            const withFood = foodOption ? foodOption.getAttribute('data-food') === 'yes' : true;
+            
+            // Validate inputs
+            if (!name || !description || !time || !amount) {
+                showNotification("Missing Information", "Please fill in all fields.", "warning");
+                return;
+            }
+            
+            if (amount <= 0) {
+                showNotification("Invalid Amount", "Please enter a valid number of pills.", "warning");
+                return;
+            }
+            
+            // Create new medication
+            const newMed = {
+                id: Date.now(), // Use timestamp for unique ID
+                name,
+                description,
+                time,
+                amount,
+                originalAmount: amount, // Store original amount for refill calculation
+                taken: false,
+                icon,
+                withFood
+            };
+            
+            medications.push(newMed);
+            
+            // Save to localStorage
+            saveToStorage();
+            
+            // Clear form
+            document.getElementById('pill-name').value = '';
+            document.getElementById('pill-description').value = '';
+            document.getElementById('pill-time').value = '';
+            document.getElementById('pill-amount').value = '';
+            
+            // Show success notification
+            showNotification("Medication Added", `${name} has been added to your tracker.`, "success");
+            
+            // Update UI
+            loadTodayPills();
+            loadInventory();
+            updateStats();
+            
+            // Switch to dashboard
+            switchPage('dashboard');
+            
+            // Simulate a medication reminder (for demo purposes)
+            setTimeout(() => {
+                const reminderToggle = document.getElementById('reminder-toggle');
+                if (reminderToggle && reminderToggle.checked) {
+                    showNotification("Medication Reminder", `Remember to take ${name} at ${formatTime(time)}${withFood ? ' with food' : ''}.`, "warning");
+                }
+            }, 1500);
+        }
+        
+        // Toggle pill taken status
+        function togglePillTaken(id) {
+            const medIndex = medications.findIndex(m => m.id === id);
+            if (medIndex === -1) return;
+            
+            medications[medIndex].taken = !medications[medIndex].taken;
+            
+            // If marking as taken, decrement the amount
+            if (medications[medIndex].taken && medications[medIndex].amount > 0) {
+                const originalAmount = medications[medIndex].originalAmount || medications[medIndex].amount + 1;
+                medications[medIndex].amount--;
+                
+                // Check if medication needs refill (1/5 or 20% remaining)
+                const refillThreshold = Math.ceil(originalAmount / 5);
+                if (medications[medIndex].amount <= refillThreshold && medications[medIndex].amount > 0) {
+                    const inventoryAlertToggle = document.getElementById('inventory-alert-toggle');
+                    if (inventoryAlertToggle && inventoryAlertToggle.checked) {
+                        showNotification("Time to Refill!", `${medications[medIndex].name} needs a refill soon (${medications[medIndex].amount} of ${originalAmount} remaining).`, "warning");
+                    }
+                }
+                
+                // Show notification if pill count is very low
+                if (medications[medIndex].amount <= 3 && medications[medIndex].amount > 0) {
+                    const inventoryAlertToggle = document.getElementById('inventory-alert-toggle');
+                    if (inventoryAlertToggle && inventoryAlertToggle.checked) {
+                        showNotification("Low Inventory", `${medications[medIndex].name} is running critically low (${medications[medIndex].amount} left).`, "warning");
+                    }
+                }
+            } else if (!medications[medIndex].taken && medications[medIndex].amount >= 0) {
+                // If unmarking, increment the amount back
+                medications[medIndex].amount++;
+            }
+            
+            // Save to localStorage
+            saveToStorage();
+            
+            // Show notification
+            const medName = medications[medIndex].name;
+            const action = medications[medIndex].taken ? "marked as taken" : "marked as not taken";
+            showNotification("Status Updated", `${medName} has been ${action}.`, "success");
+            
+            // Update UI
+            updatePillItemUI(id, medications[medIndex].taken);
+            loadInventory();
+            updateStats();
+        }
+        
+        // Update pill item UI without reloading everything
+        function updatePillItemUI(id, isTaken) {
+            const pillItem = document.querySelector(`.pill-item[data-id="${id}"]`);
+            const checkbox = document.querySelector(`.pill-checkbox-real[data-id="${id}"]`);
+            
+            if (pillItem && checkbox) {
+                // Update checkbox
+                checkbox.checked = isTaken;
+                
+                // Update pill item class
+                if (isTaken) {
+                    pillItem.classList.add('checked');
+                } else {
+                    pillItem.classList.remove('checked');
+                }
+                
+                // Update pill amount display
+                const medIndex = medications.findIndex(m => m.id === id);
+                if (medIndex !== -1) {
+                    const pillAmountElement = pillItem.querySelector('.pill-amount');
+                    if (pillAmountElement) {
+                        pillAmountElement.textContent = `${medications[medIndex].amount} left`;
+                    }
+                }
+            }
+        }
+        
+        // Update statistics
+        function updateStats() {
+            const todayCount = medications.length;
+            const takenCount = medications.filter(m => m.taken).length;
+            const inventoryCount = medications.reduce((sum, med) => sum + med.amount, 0);
+            
+            // Find next dose time
+            const now = new Date();
+            const currentTime = now.getHours() * 60 + now.getMinutes();
+            let nextDoseTime = null;
+            let nextDoseMed = null;
+            
+            medications.forEach(med => {
+                if (!med.taken) {
+                    const [hours, minutes] = med.time.split(':').map(Number);
+                    const medTime = hours * 60 + minutes;
+                    
+                    if (medTime > currentTime) {
+                        if (!nextDoseTime || medTime < nextDoseTime) {
+                            nextDoseTime = medTime;
+                            nextDoseMed = med;
+                        }
+                    }
+                }
+            });
+            
+            // Update DOM
+            document.getElementById('today-count').textContent = todayCount;
+            document.getElementById('taken-count').textContent = takenCount;
+            document.getElementById('inventory-count').textContent = inventoryCount;
+            
+            if (nextDoseMed) {
+                document.getElementById('next-dose').textContent = formatTime(nextDoseMed.time);
+                document.getElementById('next-dose').style.fontSize = '24px';
+            } else {
+                document.getElementById('next-dose').textContent = "None";
+                document.getElementById('next-dose').style.fontSize = '24px';
+            }
+        }
+        
+        // Setup icon selection
+        function setupIconSelection() {
+            const iconOptions = document.querySelectorAll('.icon-option[data-icon]');
+            iconOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    iconOptions.forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                });
+            });
+        }
+        
+        // Setup food selection
+        function setupFoodSelection() {
+            const foodOptions = document.querySelectorAll('.food-option');
+            foodOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    foodOptions.forEach(opt => opt.classList.remove('selected'));
+                    this.classList.add('selected');
+                });
+            });
+        }
+        
+        // Setup toggle switches
+        function setupToggles() {
+            const toggles = document.querySelectorAll('.toggle-switch input');
+            toggles.forEach(toggle => {
+                toggle.addEventListener('change', function() {
+                    const setting = this.id;
+                    const isEnabled = this.checked;
+                    
+                    showNotification(
+                        "Setting Updated", 
+                        `${setting.replace('-toggle', '').replace(/-/g, ' ')} ${isEnabled ? 'enabled' : 'disabled'}.`,
+                        "success"
+                    );
+                });
+            });
+            
+            // Save settings button
+            document.getElementById('save-settings-btn').addEventListener('click', function() {
+                const userName = document.getElementById('user-name').value;
+                const notificationTime = document.getElementById('notification-time').value;
+                
+                if (userName) {
+                    document.querySelector('.user-profile h4').textContent = `${userName}'s Tracker`;
+                }
+                
+                showNotification("Settings Saved", "Your preferences have been saved successfully.", "success");
+            });
+        }
+        
+        // Show notification
+        function showNotification(title, message, type) {
+            notificationTitle.textContent = title;
+            notificationMessage.textContent = message;
+            
+            // Set type-specific styling
+            notification.className = `notification ${type === 'success' ? 'notification-success' : 'notification-warning'}`;
+            
+            // Show notification
+            notification.classList.add('show');
+            
+            // Auto-hide after 5 seconds
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 5000);
+        }
+        
+        // Format time for display
+        function formatTime(timeString) {
+            if (!timeString) return "Not set";
+            
+            const [hours, minutes] = timeString.split(':').map(Number);
+            const period = hours >= 12 ? 'PM' : 'AM';
+            const displayHours = hours % 12 || 12;
+            return `${displayHours}:${minutes.toString().padStart(2, '0')} ${period}`;
+        }
+    </script>
+</body>
+</html>
